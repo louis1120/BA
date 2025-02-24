@@ -1,4 +1,17 @@
+import typer
 from ai_models import get_ai_model
+from utils import handle_feedback
+
+def get_prs(repositories, model):
+    for repo in repositories:
+        typer.echo(repo.full_name)
+        pull_requests = repo.get_pulls(state='open', direction='desc')
+        typer.echo(f"Number of open pull requests: {len(list(pull_requests))}")
+        for pr in pull_requests[:1]:
+            response, prompt = gen_pr_description(pr, model)
+            while typer.confirm("Do you have any feedback?"):
+                handle_feedback(prompt, response, model)
+            # pr.changed_files => pass the changed files to the LLM as well
 
 def gen_pr_description(pr, model_name: str = "qwen2.5-coder:14B"):
     """
@@ -73,6 +86,6 @@ def gen_pr_description(pr, model_name: str = "qwen2.5-coder:14B"):
         """
         # Generate the response using the AI model
         response = model.generate_response(prompt)
-        return response
+        return response, prompt
     except Exception as e:
         return f"Error generating PR description: {e}"
