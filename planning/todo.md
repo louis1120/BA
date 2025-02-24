@@ -5,84 +5,84 @@ This checklist outlines all the tasks required to build the PR Reviewer Tool. Ea
 ---
 
 ## 1. Project Initialization & Setup
-- [ ] Create a `requirements.txt` file including:
-    - [ ] Typer
-    - [ ] PyGithub
-    - [ ] DuckDB or SQLite (whichever you choose)
-    - [ ] Additional libraries as needed
+- [x] Create a `requirements.txt` file including:
+    - [x] Typer
+    - [x] PyGithub
+    - [x] DuckDB or SQLite (whichever you choose)
+    - [x] Additional libraries as needed
 
 ---
 
 ## 2. CLI Foundation with Typer
-- [ ] **CLI Skeleton**
-  - [ ] Create a main CLI file (e.g., `main.py`) in the project root.
-  - [ ] Initialize Typer and set up the basic CLI structure.
-  - [ ] Implement placeholder commands:
-    - [ ] `generate-pr-description` (prints "Generating PR description...")
-    - [ ] `add-code-review` (prints "Adding code review comments...")
-    - [ ] `report` (prints "Generating report...")
-  - [ ] Wire the commands together in the Typer app.
-  - [ ] Add basic docstrings and inline comments for clarity.
+- [x] **CLI Skeleton**
+  - [x] Create a main CLI file (e.g., `main.py`) in the project root.
+  - [x] Initialize Typer and set up the basic CLI structure.
+  - [x] Implement placeholder commands:
+    - [x] `generate-pr-description` (prints "Generating PR description...")
+    - [x] `add-code-review` (prints "Adding code review comments...")
+    - [x] `report` (prints "Generating report...")
+  - [x] Wire the commands together in the Typer app.
+  - [x] Add basic docstrings and inline comments for clarity.
 
 ---
 
 ## 3. GitHub Integration Module
-- [ ] **Create GitHub Integration**
-  - [ ] Create a new module: `src/github_integration.py`.
-  - [ ] Use PyGithub to set up the GitHub API client.
-  - [ ] Read authentication tokens from environment variables:
-    - [ ] For Enterprise GitHub: `GITHUB_ENTERPRISE_TOKEN` and `GH_ENTERPRISE_HOST`
-    - [ ] For Public GitHub: `GH_TOKEN` and `GH_HOST`
-  - [ ] Implement a function (e.g., `get_github_instance()`) to return the authenticated client.
-  - [ ] Include error handling for missing or invalid tokens.
+- [x] **Create GitHub Integration**
+  - [x] Create a new module: `src/github_integration.py`.
+  - [x] Use PyGithub to set up the GitHub API client.
+  - [x] Read authentication tokens from environment variables:
+    - [] For Enterprise GitHub: `GITHUB_ENTERPRISE_TOKEN` and `GH_ENTERPRISE_HOST`
+    - [x] For Public GitHub: `GH_TOKEN` and `GH_HOST`
+  - [x] Implement a function (e.g., `get_github_instance()`) to return the authenticated client.
+  - [x] Include error handling for missing or invalid tokens.
 
 
 ---
 
 ## 4. AI Model Integration Wrappers
-- [ ] **Create AI Model Module**
-  - [ ] Create a module: `src/ai_models.py`.
-  - [ ] Define a base interface for AI model interactions.
-  - [ ] Implement wrapper functions or classes for:
-    - [ ] `qwen2.5-coder:14B`
-    - [ ] `deepseek-r1:14B`
+- [x] **Create AI Model Module**
+  - [x] Create a module: `src/ai_models.py`.
+  - [x] Define a base interface for AI model interactions.
+  - [x] Implement wrapper functions or classes for:
+    - [x] `qwen2.5-coder:14B`
+    - [x] `deepseek-r1:14B`
   - [ ] Simulate AI responses using dummy outputs (e.g., "Simulated response for: {prompt}").
-  - [ ] Provide a mechanism to select a model or combine outputs.
+  - [x] Provide a mechanism to select a model or combine outputs.
   - [ ] Write unit tests to verify that the wrappers return the dummy responses.
 
 ---
 
 ## 5. PR Description Generation Module
-- [ ] **Develop PR Description Module**
-  - [ ] Create a module: `src/pr_description.py`.
-  - [ ] Write a function `generate_pr_description(commits: List[dict]) -> str`:
+- [x] **Develop PR Description Module**
+  - [x] Create a module: `src/pr_description.py`.
+  - [x] Write a function `generate_pr_description(commits: List[dict]) -> str`:
     - [ ] Accept commit data with keys like `message` and `diff`.
-    - [ ] Use AI model wrappers to generate a summary.
-    - [ ] Structure the output to include:
-      - [ ] Title
-      - [ ] Summary of changes
-      - [ ] Key updates
-      - [ ] Additional context
+    - [x] Use AI model wrappers to generate a summary.
+    - [x] Structure the output to include:
+      - [x] Title
+      - [x] Summary of changes
+      - [x] Key updates
+      - [x] Additional context
   - [ ] Write unit tests using sample commit data.
-  - [ ] Ensure proper error handling for AI model failures.
-  - [ ] Integrate this module with the CLI command `generate-pr-description`.
+  - [x] Ensure proper error handling for AI model failures.
+  - [x] Integrate this module with the CLI command `generate-pr-description`.
 
 ---
 
 ## 6. Code Review Comments Generation Module
-- [ ] **Develop Code Review Module**
-  - [ ] Create a module: `src/code_review.py`.
-  - [ ] Write a function `generate_code_review_comments(files: Dict[str, str]) -> List[dict]`:
-    - [ ] Accept file name and file content or diff as inputs.
-    - [ ] Use AI model wrappers to generate review comments.
-    - [ ] Include details for each comment:
-      - [ ] File name
-      - [ ] Line number (simulate if necessary)
-      - [ ] Comment text
-      - [ ] Rationale
-      - [ ] Severity (e.g., "Minor", "Critical")
+- [x] **Develop Code Review Module**
+  - [x] Create a module: `src/code_review.py`.
+  - [x] Write a function `generate_code_review_comments(files: Dict[str, str]) -> List[dict]`:
+    - [x] Accept file name and file content or diff as inputs.
+    - [x] Use AI model wrappers to generate review comments.
+    - [x] Include details for each comment:
+      - [x] File name
+      - [x] Line number (simulate if necessary)
+      - [x] Comment text
+      - [x] Rationale
+      - [x] Severity (e.g., "Minor", "Critical")
   - [ ] Write unit tests with dummy file diffs.
-  - [ ] Integrate this module with the CLI command `add-code-review`.
+  - [x] Integrate this module with the CLI command `add-code-review`.
 
 ---
 
