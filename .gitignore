@@ -1,3 +1,4 @@
 latex/
 venv/
 llms_repo_analysis/src/__pycache__/
+llms_repo_analysis/test1/test.py
