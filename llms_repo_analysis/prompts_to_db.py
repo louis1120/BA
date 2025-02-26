@@ -1,9 +1,5 @@
-
-
-
 import uuid
 import duckdb
-from src.logging_metrics import insert_prompt
 
 db = duckdb.connect("llm_analysis.db")
 
@@ -35,6 +31,5 @@ prompt2 = (
     "### File Diffs:\n" + diffs_placeholder
 )
 
-# Prompts in die Datenbank einfügen
 print(insert_prompt(prompt1, "code_review"))
 print(insert_prompt(prompt2, "pull_request_description"))

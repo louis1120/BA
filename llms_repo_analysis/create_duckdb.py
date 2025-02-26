@@ -13,9 +13,11 @@ CREATE TABLE IF NOT EXISTS Prompts (
 
 db.execute("""
 CREATE TABLE IF NOT EXISTS CodeDiffs (
-    diff_id UUID PRIMARY KEY,
+    pr_id UUID PRIMARY KEY,
     diff_text TEXT,
-    language TEXT
+    commit_messages TEXT,
+    repository TEXT,
+    pr_number INT
 );
 """)
 
@@ -23,7 +25,7 @@ db.execute("""
 CREATE TABLE IF NOT EXISTS GeneratedMessages (
     message_id UUID PRIMARY KEY,
     prompt_id UUID REFERENCES Prompts(prompt_id),
-    diff_id UUID REFERENCES CodeDiffs(diff_id),
+    pr_id UUID REFERENCES CodeDiffs(pr_id),
     model TEXT,
     generated_output TEXT,
     response_time REAL
@@ -41,6 +43,6 @@ CREATE TABLE IF NOT EXISTS Evaluations (
 );
 """)
 
-print("DuckDB-Datenbank erfolgreich erstellt und mit Beispiel-Daten gefüllt! 🚀")
+print("DuckDB-Datenbank erfolgreich erstellt und aktualisiert! 🚀")
 
 db.close()
