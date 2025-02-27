@@ -41,7 +41,7 @@ python src/main.py generate-pr-description --pullrequest <PR_NUMBER> --repo <REP
 ```
 **Options:**
 - `--pullrequest, -pr` : The number of the Pull Request.
-- `--repo, -r` : The repository in the format `owner/repo`. Default: `microsoft/OmniParser`.
+- `--repo, -r` : The repository in the format `owner/repo`.
 - `--enterprise, -e` : Flag indicating if the repository is an Enterprise repository. Default: `False`.
 
 ---
@@ -53,7 +53,7 @@ python src/main.py add-code-review --pullrequest <PR_NUMBER> --repo <REPO> [--en
 ```
 **Options:**
 - `--pullrequest, -pr` : The number of the Pull Request.
-- `--repo, -r` : The repository in the format `owner/repo`. Default: `microsoft/OmniParser`.
+- `--repo, -r` : The repository in the format `owner/repo`.
 - `--enterprise, -e` : Flag indicating if the repository is an Enterprise repository. Default: `False`.
 
 ### 7. Evaluation with Human Feedback 🧑‍💻
