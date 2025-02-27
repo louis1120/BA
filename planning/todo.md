@@ -87,9 +87,9 @@ This checklist outlines all the tasks required to build the PR Reviewer Tool. Ea
 ---
 
 ## 7. Interactive Feedback System
-- [ ] **Implement Feedback Module**
-  - [ ] Create a module: `src/feedback.py`.
-  - [ ] Write a function `collect_feedback(generated_output: str) -> dict`:
+- [] **Implement Feedback Module**
+  - [] Create a module: `src/feedback.py`.
+  - [] Write a function `collect_feedback(generated_output: str) -> dict`:
     - [ ] Display the generated PR description or code review comments.
     - [ ] Prompt the user to mark output as "accurate" or "hallucinated".
     - [ ] Provide an option to retry the generation process.

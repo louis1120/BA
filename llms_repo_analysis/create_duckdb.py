@@ -1,7 +1,6 @@
 import duckdb
-import uuid
 
-db = duckdb.connect("llm_analysis.db")
+db = duckdb.connect("llms_repo_analysis/llm_analysis.db")
 
 db.execute("""
 CREATE TABLE IF NOT EXISTS Prompts (
@@ -36,13 +35,16 @@ db.execute("""
 CREATE TABLE IF NOT EXISTS Evaluations (
     evaluation_id UUID PRIMARY KEY,
     message_id UUID REFERENCES GeneratedMessages(message_id),
-    evaluation_method TEXT CHECK(evaluation_method IN ('human_feedback', 'deepeval')),
+    evaluation_method TEXT,
+    evaluation_model TEXT,
     answer_relevancy REAL,
-    hallucination_rate REAL,
+    faithfulness REAL,
     prompt_alignment REAL
 );
 """)
 
-print("DuckDB-Datenbank erfolgreich erstellt und aktualisiert! 🚀")
+print("DuckDB created!🚀")
+
 
 db.close()
+

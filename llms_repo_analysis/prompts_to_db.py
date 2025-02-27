@@ -1,7 +1,7 @@
 import uuid
 import duckdb
 
-db = duckdb.connect("llm_analysis.db")
+db = duckdb.connect("llms_repo_analysis/llm_analysis.db")
 
 def insert_prompt(prompt_text, metric):
     """
@@ -19,7 +19,6 @@ prompt1 = (
     "Provide constructive feedback on whether the code is well-structured, follows best practices, "
     "is efficient, and maintains readability. Identify potential issues such as bad patterns, security risks, "
     "or performance bottlenecks. Summarize your review in clear bullet points.\n\n"
-    "### File Diffs:\n" + diffs_placeholder
 )
 
 prompt2 = (
@@ -27,8 +26,6 @@ prompt2 = (
     "Analyze the provided commit messages and file changes to generate a clear and informative summary. "
     "Follow conventional commit guidelines such as 'fix:', 'feat:', 'chore:', etc. to categorize the changes. "
     "The output should be in bullet points, focusing only on the most relevant modifications.\n\n"
-    "### Commit Messages:\n" + commit_messages_placeholder + "\n\n"
-    "### File Diffs:\n" + diffs_placeholder
 )
 
 print(insert_prompt(prompt1, "code_review"))

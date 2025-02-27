@@ -40,55 +40,5 @@ Benchmark HumanEval
 4. Phi-4 => 82,8% (Context 16.000)
 ![llm-stats bis 15b parameter](image-2.png)
 [LLM Explorer](https://llm.extractum.io/list/?codegen)
-Code-Generation Large Language Models
 
-[RepoBench](https://arxiv.org/abs/2306.03091) => sehr gute Benchmark für unseren Usecase
-### Bewertung von einzelnen Codeblöcken
 
-1. 50 Zeilen
-2. 100 Zeilen
-3. 250 Zeilen
-4. 500 Zeilen
-
-Jeweils Generiert mit dem Chat und bewertet mit pylint vor und nach den Verbesserungen
-Pylint anpassen, sodass Dokumentation weniger gewichtet wird
-
-Testcode mithilfe von ChatGPT erstellt
-        import os
-
-        data = ""
-
-        def read_file(filename):
-            global data
-            f = open(filename, "r")  
-            data = f.read()
-            f.close()
-            return data
-
-        def process_text(text):
-            words = text.split(" ")  
-            result = {}
-            
-            for w in words:
-                if w in result:
-                    result[w] += 1
-                else:
-                    result[w] = 1
-            
-            return result
-
-        def main():
-            file = "sample.txt"
-            
-            if not os.path.exists(file):  
-                print("Datei nicht gefunden!")
-                return
-            
-            text = read_file(file)
-            word_counts = process_text(text)
-
-            # Fehlerhafte Ausgabe
-            for key in word_counts.keys():
-                print(key + " : " + str(word_counts[key]))  
-
-        main()

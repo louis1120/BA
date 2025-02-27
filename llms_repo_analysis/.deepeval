@@ -1,0 +1,1 @@
+{"LOCAL_MODEL_NAME": "deepseek-coder:6.7b", "LOCAL_MODEL_BASE_URL": "http://127.0.0.1:11434/v1/", "USE_LOCAL_MODEL": "YES", "USE_AZURE_OPENAI": "NO", "LOCAL_MODEL_API_KEY": "ollama", "LOCAL_MODEL_FORMAT": "json"}
