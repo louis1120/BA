@@ -79,16 +79,16 @@ def human_feedback_evaluation():
         st.write("Rate how accurately the generated output reflects the context.")
         faithfulness_score = st.slider("", 0, 10, st.session_state.faithfulness_score, key="faithfulness_slider") / 10
 
-    evaluation_method = "humanfeedback"
-    evaluation_model = None
-    
-    if st.button("Next"):
-        insert_evaluation(selected_message_id, evaluation_method, evaluation_model, relevancy_score, faithfulness_score, alignment_score)
-        st.session_state.alignment_score = 5
-        st.session_state.relevancy_score = 5
-        st.session_state.faithfulness_score = 5
-        st.session_state["reload"] = True
-        st.rerun()
+        evaluation_method = "humanfeedback"
+        evaluation_model = None
+        
+        if st.button("Next"):
+            insert_evaluation(selected_message_id, evaluation_method, evaluation_model, relevancy_score, faithfulness_score, alignment_score)
+            st.session_state.alignment_score = 5
+            st.session_state.relevancy_score = 5
+            st.session_state.faithfulness_score = 5
+            st.session_state["reload"] = True
+            st.rerun()
 
 if __name__ == "__main__":
     human_feedback_evaluation()
