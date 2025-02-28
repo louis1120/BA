@@ -3,3 +3,6 @@ venv/
 llms_repo_analysis/src/__pycache__/
 llms_repo_analysis/test1/test.py
 llms_repo_analysis/llm_analysis.db
+llms_repo_analysis/eval/__pycache__/data_handler.cpython-313.pyc
+llms_repo_analysis/eval/deepeval/.deepeval_telemetry.txt
+llms_repo_analysis/eval/deepeval/.deepeval
