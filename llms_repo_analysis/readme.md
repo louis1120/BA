@@ -1,77 +1,92 @@
 # PR-Analysis with LLM 🚀
 
-This project provides a set of commands for analyzing and evaluating Pull Requests (PRs) using locally running LLMs. Additionally, the results can be evaluated using DeepEval and human feedback.
+Dieses Projekt stellt eine Reihe von Befehlen zur Analyse und Bewertung von Pull Requests (PRs) mit lokal laufenden LLMs bereit. Zudem können die Ergebnisse mit DeepEval und menschlichem Feedback evaluiert werden.
 
-### 1. Clone the Repository 🔗
+## Setup
+
+### 1. Repository klonen 🔗
 ```bash
 git clone git@git.i.mercedes-benz.com:LOBERNH/bachelor-thesis---LLMs-for-RepoAnalysis.git
 ```
 
-### 2. Navigate to the Project Directory 📂
+### 2. In das Projektverzeichnis wechseln 📂
 ```bash
 cd llms_repo_analysis
 ```
 
-### 3. Create the Database 🗄️
+### 3. Ollama installieren 🦙
+[Ollama Download](https://ollama.com/download/)
+
+### 4. Ollama-Modelle herunterladen 🦙
+```bash
+ollama pull deepseek-coder:6.7b
+```
+
+### 5. Ollama-Server starten 🦙
+```bash
+ollama serve
+```
+
+### 6. Datenbank erstellen 🗄️
 ```bash
 python src/main.py create-db
 ```
 
-### 4. Install Dependencies 📦
+### 7. Abhängigkeiten installieren 📦
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Set the Model for DeepEval 🧠
+## PR-Beschreibung generieren und Code-Review mit Ollama durchführen
+
+### 1. PR-Beschreibung generieren 📝
+Erzeugt eine Beschreibung für einen Pull Request.
+```bash
+python src/main.py generate-pr-description --pullrequest <PR_NUMBER> --repo <REPO> [--enterprise]
+```
+**Optionen:**
+- `--pullrequest, -pr` : Die Nummer des Pull Requests.
+- `--repo, -r` : Das Repository im Format `owner/repo`.
+- `--enterprise, -e` : Flag, das angibt, ob das Repository ein Enterprise-Repository ist. Standard: `False`.
+
+---
+
+### 2. Code-Review hinzufügen 💬
+Fügt Code-Review-Kommentare zu einem spezifischen Pull Request hinzu.
+```bash
+python src/main.py add-code-review --pullrequest <PR_NUMBER> --repo <REPO> [--enterprise]
+```
+**Optionen:**
+- `--pullrequest, -pr` : Die Nummer des Pull Requests.
+- `--repo, -r` : Das Repository im Format `owner/repo`.
+- `--enterprise, -e` : Flag, das angibt, ob das Repository ein Enterprise-Repository ist. Standard: `False`.
+
+---
+
+## Generierte Ergebnisse evaluieren
+
+### 1. Modell für DeepEval setzen 🧠
 ```bash
 deepeval set-ollama deepseek-coder:6.7b
 ```
-Or with a custom base URL:
+Oder mit einer benutzerdefinierten Basis-URL:
 ```bash
 deepeval set-ollama deepseek-coder:6.7b --base-url="http://localhost:11434/v1/"
 ```
 
-### 6. Generate an Analysis with Automatic Evaluation using DeepEval Metrics 📊
-Choose between generating a PR description(a) or a code review(b).
-
-### a. Generate PR Description 📝
-Generates a description for a Pull Request.
+### 2. Evaluation mit menschlichem Feedback 🧑‍💻
+Startet eine Streamlit-Anwendung zur manuellen Bewertung mit menschlichem Feedback.
 ```bash
-python src/main.py generate-pr-description --pullrequest <PR_NUMBER> --repo <REPO> [--enterprise]
-```
-**Options:**
-- `--pullrequest, -pr` : The number of the Pull Request.
-- `--repo, -r` : The repository in the format `owner/repo`.
-- `--enterprise, -e` : Flag indicating if the repository is an Enterprise repository. Default: `False`.
-
----
-
-### b. Add Code Review 💬
-Adds code review comments to a specific Pull Request.
-```bash
-python src/main.py add-code-review --pullrequest <PR_NUMBER> --repo <REPO> [--enterprise]
-```
-**Options:**
-- `--pullrequest, -pr` : The number of the Pull Request.
-- `--repo, -r` : The repository in the format `owner/repo`.
-- `--enterprise, -e` : Flag indicating if the repository is an Enterprise repository. Default: `False`.
-
-### 7. Evaluation with Human Feedback 🧑‍💻
-Launches a Streamlit application for manually evaluating metrics with human feedback.
-```bash
-python src/main.py evaluation-hf
-```
----
-
-### 8. Generate a Report *(Coming Soon)* 📈
-Generates a report.
-```bash
-python src/main.py report
+python eval/evaluate.py humanfeedback
 ```
 
----
+### 3. Evaluation mit DeepEval 📊
+```bash
+python eval/evaluate.py deepeval
+```
 
-## Notes ℹ️ 
-- Use `evaluation-hf` only after conducting a code review or PR description generation.
-- Ensure all dependencies are installed and the database is created before running the commands.
-
+### 4. Bericht generieren *(Coming Soon)* 📈
+Erzeugt einen Bericht.
+```bash
+python eval/evaluate.py report
+```
