@@ -6,3 +6,12 @@ llms_repo_analysis/llm_analysis.db
 llms_repo_analysis/eval/__pycache__/data_handler.cpython-313.pyc
 llms_repo_analysis/eval/deepeval/.deepeval_telemetry.txt
 llms_repo_analysis/eval/deepeval/.deepeval
+llms_repo_analysis/eval/__pycache__/metrics.cpython-313.pyc
+llms_repo_analysis/eval/__pycache__/utils.cpython-313.pyc
+llms_repo_analysis/eval/__pycache__/model.cpython-313.pyc
+llms_repo_analysis/modelfiles/qwen_temp02.Modelfile
+llms_repo_analysis/modelfiles/qwen_temp07.Modelfile
+llms_repo_analysis/modelfiles/deepseek_temp02.Modelfile
+llms_repo_analysis/modelfiles/deepseek_temp07.Modelfile
+llms_repo_analysis/llm_analysis_backup.db
+llms_repo_analysis/llm_analysis copy.db

@@ -1,7 +1,7 @@
 from ai_models import get_ai_model
 import uuid
 from typing import Tuple
-from logging_metrics import insert_code_diff
+from logging_metrics import insert_code_diff, insert_generated_message
 from utils import fetch_prompt_and_diffs
 from github.Repository import Repository
 
@@ -17,19 +17,13 @@ def pr_analysis(pr_number: int, prompt_id: uuid.UUID, repo: Repository, model_na
         
         context = diffs + commit_messages
         
-        print(f"pr_id=> {pr_id}")
-        print(f"prompt=> {prompt}")
-        
         # Fetch AI model and generate PR description
         model = get_ai_model(model_name)
-        response, response_time = model.generate_response(prompt, context)
-        
+        response, total_duration, load_duration, prompt_tokens, prompt_eval_time, generated_tokens, generation_time = model.generate_response(prompt, context)
+        message_id = insert_generated_message(prompt_id, pr_id, model.model_name, response, total_duration, load_duration, prompt_tokens, prompt_eval_time, generated_tokens, generation_time)
 
-        print(f"response=> {response}")
-        print(f"response_time=> {response_time}")
-
-        return response, pr_id, response_time, prompt, context
+        return message_id
     
     except Exception as e:
-        return f"Error generating PR description: {e}", "", 0.0, "", ""
+        return f"Error generating PR description: {e}"
 

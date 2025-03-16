@@ -2,7 +2,7 @@ import duckdb
 import typer
 
 def create_duckdb():
-    db = duckdb.connect("llms_repo_analysis/llm_analysis.db")
+    db = duckdb.connect("llm_analysis.db")
 
     db.execute("""
     CREATE TABLE IF NOT EXISTS Prompts (
@@ -18,18 +18,24 @@ def create_duckdb():
         diff_text TEXT,
         commit_messages TEXT,
         repository TEXT,
+        language TEXT,
         pr_number INT
     );
     """)
 
-    db.execute("""
+    db.execute(""" 
     CREATE TABLE IF NOT EXISTS GeneratedMessages (
         message_id UUID PRIMARY KEY,
         prompt_id UUID REFERENCES Prompts(prompt_id),
         pr_id UUID REFERENCES CodeDiffs(pr_id),
         model TEXT,
         generated_output TEXT,
-        response_time REAL
+        total_duration REAL,
+        load_duration REAL,
+        prompt_tokens INTEGER,
+        prompt_eval_time REAL,
+        generated_tokens INTEGER,
+        generation_time REAL
     );
     """)
 

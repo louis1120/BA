@@ -1,92 +1,114 @@
-# PR-Analysis with LLM 🚀
+# PR Analysis with LLM 🚀
 
-Dieses Projekt stellt eine Reihe von Befehlen zur Analyse und Bewertung von Pull Requests (PRs) mit lokal laufenden LLMs bereit. Zudem können die Ergebnisse mit DeepEval und menschlichem Feedback evaluiert werden.
+This project provides a set of commands for analyzing and evaluating pull requests (PRs) using locally running LLMs. Additionally, the results can be evaluated with DeepEval and human feedback.
 
 ## Setup
 
-### 1. Repository klonen 🔗
+### 1. Clone the repository 🔗
 ```bash
 git clone git@git.i.mercedes-benz.com:LOBERNH/bachelor-thesis---LLMs-for-RepoAnalysis.git
 ```
 
-### 2. In das Projektverzeichnis wechseln 📂
+### 2. Navigate to the project directory 📂
 ```bash
 cd llms_repo_analysis
 ```
 
-### 3. Ollama installieren 🦙
+### 3. Install Ollama 🦙
 [Ollama Download](https://ollama.com/download/)
 
-### 4. Ollama-Modelle herunterladen 🦙
+If Ollama is not installed yet, it can be set up using the following command:
+
+#### Linux/macOS:
 ```bash
-ollama pull deepseek-coder:6.7b
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-### 5. Ollama-Server starten 🦙
+#### Windows:
+1. Install WSL2.
+2. Start Ubuntu in WSL and run the following command:
+   ```bash
+   curl -fsSL https://ollama.com/install.sh | sh
+   ```
+
+---
+
+### 4. Start the Ollama server 🦙
 ```bash
 ollama serve
 ```
+This command starts the Ollama server, which is required for local LLM usage.
 
-### 6. Datenbank erstellen 🗄️
+---
+
+### 5. Use local model files 📂
+If your own **model files** are located in the `modelfiles` folder, they can be registered with Ollama:
+
+```bash
+cd modelfiles
+ollama create deepseek_temp02 -f deepseek_temp02.Modelfile
+ollama create deepseek_temp07 -f deepseek_temp07.Modelfile
+ollama create qwen_temp02 -f qwen_temp02.Modelfile
+ollama create qwen_temp07 -f qwen_temp07.Modelfile
+```
+
+---
+
+### 6. Alternatively: Use a custom model in the code
+For measurement purposes, all models registered in `ai_models.py` are used. If only a specific model should be used, the code needs to be adjusted.
+
+**Important:** Models must be decorated with `@register_model`.
+
+**Example:**
+```python
+@register_model
+class QwenT07(AIModelBase):
+    def __init__(self):
+        super().__init__("qwen_t07:latest")
+```
+
+---
+
+### 7. Create the database 🟤
 ```bash
 python src/main.py create-db
 ```
 
-### 7. Abhängigkeiten installieren 📦
+### 8. Install dependencies 📦
 ```bash
 pip install -r requirements.txt
 ```
 
-## PR-Beschreibung generieren und Code-Review mit Ollama durchführen
+---
 
-### 1. PR-Beschreibung generieren 📝
-Erzeugt eine Beschreibung für einen Pull Request.
+## Generate PR descriptions and conduct code reviews with Ollama
+
+### 1. Generate a PR description 📝
+Creates a description for a pull request.
+
 ```bash
 python src/main.py generate-pr-description --pullrequest <PR_NUMBER> --repo <REPO> [--enterprise]
 ```
-**Optionen:**
-- `--pullrequest, -pr` : Die Nummer des Pull Requests.
-- `--repo, -r` : Das Repository im Format `owner/repo`.
-- `--enterprise, -e` : Flag, das angibt, ob das Repository ein Enterprise-Repository ist. Standard: `False`.
+
+**Options:**
+- `--pullrequest, -pr` *(Required)*: The pull request number.
+- `--repo, -r` *(Required)*: The repository in the format `owner/repo`.
+- `--enterprise, -e` *(Optional)*: Flag indicating whether the repository is an Enterprise repository. Default: `False`.
 
 ---
 
-### 2. Code-Review hinzufügen 💬
-Fügt Code-Review-Kommentare zu einem spezifischen Pull Request hinzu.
+### 2. Add a code review *(Coming Soon / Maintenance)* 💬
+Adds code review comments to a specific pull request.
+
 ```bash
 python src/main.py add-code-review --pullrequest <PR_NUMBER> --repo <REPO> [--enterprise]
 ```
-**Optionen:**
-- `--pullrequest, -pr` : Die Nummer des Pull Requests.
-- `--repo, -r` : Das Repository im Format `owner/repo`.
-- `--enterprise, -e` : Flag, das angibt, ob das Repository ein Enterprise-Repository ist. Standard: `False`.
+
+**Options:**
+- `--pullrequest, -pr` *(Required)*: The pull request number.
+- `--repo, -r` *(Required)*: The repository in the format `owner/repo`.
+- `--enterprise, -e` *(Optional)*: Flag indicating whether the repository is an Enterprise repository. Default: `False`.
 
 ---
 
-## Generierte Ergebnisse evaluieren
-
-### 1. Modell für DeepEval setzen 🧠
-```bash
-deepeval set-ollama deepseek-coder:6.7b
-```
-Oder mit einer benutzerdefinierten Basis-URL:
-```bash
-deepeval set-ollama deepseek-coder:6.7b --base-url="http://localhost:11434/v1/"
-```
-
-### 2. Evaluation mit menschlichem Feedback 🧑‍💻
-Startet eine Streamlit-Anwendung zur manuellen Bewertung mit menschlichem Feedback.
-```bash
-python eval/evaluate.py humanfeedback
-```
-
-### 3. Evaluation mit DeepEval 📊
-```bash
-python eval/evaluate.py deepeval
-```
-
-### 4. Bericht generieren *(Coming Soon)* 📈
-Erzeugt einen Bericht.
-```bash
-python eval/evaluate.py report
-```
+✅ **Your model is now ready to use! Good luck!** 🚀

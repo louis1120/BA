@@ -1,9 +1,9 @@
-import uuid
+import uuid 
 import duckdb
 import typer
 
 def write_prompts_to_db():
-    db = duckdb.connect("llms_repo_analysis/llm_analysis.db")
+    db = duckdb.connect("llm_analysis.db")
 
     def insert_prompt(prompt_text, metric):
         """
@@ -13,19 +13,104 @@ def write_prompts_to_db():
         db.execute("INSERT INTO Prompts (prompt_id, prompt_text, metric) VALUES (?, ?, ?)", (prompt_id, prompt_text, metric))
         return prompt_id
 
-    prompt1 = (
-        "You are an expert code reviewer. Analyze the provided code changes and evaluate their quality. "
-        "Provide constructive feedback on whether the code is well-structured, follows best practices, "
-        "is efficient, and maintains readability. Identify potential issues such as bad patterns, security risks, "
-        "or performance bottlenecks. Summarize your review in clear bullet points.\n\n"
-    )
+    few_shot_prompt = """Generate a well-structured and concise Pull Request (PR) description based on the provided commit messages and code changes. 
+    Each change should be described in a single short sentence and follow the Conventional Commit Types (feat, fix, chore, refactor, docs, test, etc.). Keep it brief and precise.
 
-    prompt2 = (
-        "You are an expert at writing professional and concise Pull Request descriptions following best practices. "
-        "Analyze the provided commit messages and file changes to generate a clear and informative summary. "
-        "Follow conventional commit guidelines such as 'fix:', 'feat:', 'chore:', etc. to categorize the changes. "
-        "The output should be in bullet points, focusing only on the most relevant modifications.\n\n"
-    )
+    ### Examples of PR Descriptions:
 
-    typer.echo(insert_prompt(prompt1, "code_review"))
-    typer.echo(insert_prompt(prompt2, "pull_request_description"))
+    ---
+    Example 1:
+    - **chore:** Simplified logic for splitting operations.
+    - **chore:** Improved boolean evaluation for readability.
+    - **feat:** Enabled global issue collection in config.
+    - **chore:** Reformatted code for consistency.
+
+    ---
+    Example 2:
+    - **fix:** Allowed config generator to accept multiple commands.
+    - **fix:** Removed empty PR fields from YAML output.
+
+    ---
+
+    Now, generate a concise PR description for the current Pull Request.
+
+    **Commit Messages:**  
+    {commit_messages}
+
+    **Code Changes:**  
+    {code_diffs}
+    """
+
+    structured_cot_prompt = """You are an experienced software engineer crafting a precise, structured, and concise Pull Request (PR) description. 
+    Use a **structured chain-of-thought** approach to ensure clarity. Keep the description short and to the point.
+
+    ### Step 1: Analyze the Changes
+    - Read commit messages and code diffs.
+    - Identify the purpose of each change.
+    - Assign the correct **Conventional Commit Type** (feat, fix, chore, refactor, docs, test, etc.).
+
+    ### Step 2: Structure the PR Description
+    - Each change should be in a separate sentence.
+    - Start each sentence with the commit type and keep it concise.
+
+    ---
+    **Commit Messages:**  
+    {commit_messages}
+
+    **Code Changes:**  
+    {code_diffs}
+
+    ---
+
+    Now, generate the PR description in the following concise format:
+
+    - **chore:** Simplified logic for splitting operations.
+    - **chore:** Improved boolean evaluation for readability.
+    - **feat(config):** Enabled global issue collection.
+    - **fix:** Allowed config generator to accept multiple commands.
+    - **fix:** Removed empty PR fields from YAML output.
+    """
+
+    combined_prompt = """Generate a concise and structured Pull Request (PR) description based on the given commit messages and code changes. 
+    Each change should be a short sentence, following the Conventional Commit types (feat, fix, chore, refactor, docs, test, etc.). Keep it brief and precise.
+
+    ### Instructions:
+    1. Read commit messages and code diffs.
+    2. Identify the purpose of each change.
+    3. Assign the correct **Conventional Commit Type**.
+    4. Format each change as a bullet point in a short and clear sentence.
+
+    ### Example PR Descriptions:
+
+    ---
+    #### Example 1:
+    - **chore:** Simplified logic for splitting operations.
+    - **chore:** Improved boolean evaluation for readability.
+    - **feat(config):** Enabled global issue collection.
+    - **chore:** Reformatted code for consistency.
+
+    ---
+    #### Example 2:
+    - **fix:** Allowed config generator to accept multiple commands.
+    - **fix:** Removed empty PR fields from YAML output.
+
+    ---
+
+    Now, generate a structured and concise PR description:
+
+    **Commit Messages:**  
+    {commit_messages}
+
+    **Code Changes:**  
+    {code_diffs}
+
+    ---
+
+    **Expected Output Format:**
+    - **{commit_type}:** {Short description of the change}.
+    - **{commit_type}:** {Short description of the change}.
+    """
+    
+    typer.echo(insert_prompt(few_shot_prompt, "pull_request_description"))
+    typer.echo(insert_prompt(structured_cot_prompt, "pull_request_description"))
+    typer.echo(insert_prompt(combined_prompt, "pull_request_description"))

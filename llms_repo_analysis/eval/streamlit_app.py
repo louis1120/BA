@@ -83,7 +83,7 @@ def human_feedback_evaluation():
         evaluation_model = None
         
         if st.button("Next"):
-            insert_evaluation(selected_message_id, evaluation_method, evaluation_model, relevancy_score, faithfulness_score, alignment_score)
+            insert_evaluation(selected_message_id, evaluation_method, relevancy_score, faithfulness_score, alignment_score, evaluation_model)
             st.session_state.alignment_score = 5
             st.session_state.relevancy_score = 5
             st.session_state.faithfulness_score = 5
