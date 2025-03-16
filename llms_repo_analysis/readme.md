@@ -41,7 +41,7 @@ This command starts the Ollama server, which is required for local LLM usage.
 
 ---
 
-### 5. Use local model files 📂
+### 5. Measure with all registered Models 📂
 If your own **model files** are located in the `modelfiles` folder, they can be registered with Ollama:
 
 ```bash
@@ -97,7 +97,21 @@ python src/main.py generate-pr-description --pullrequest <PR_NUMBER> --repo <REP
 
 ---
 
-### 2. Add a code review *(Coming Soon / Maintenance)* 💬
+### 2. Interactive PR Analysis 🛠️
+Perform an interactive analysis on a pull request with a selected prompt and model.
+
+```bash
+python src/main.py interactive-perform-analysis --pullrequest <PR_NUMBER> --repo <REPO> --model <MODEL_NAME> --prompt <PROMPT>
+```
+
+**Options:**
+- `--pullrequest, -pr` *(Required)*: The pull request number.
+- `--repo, -r` *(Required)*: The repository in the format `owner/repo`.
+- `--enterprise, -e` *(Optional)*: Flag indicating whether the repository is an Enterprise repository. Default is `False`.
+
+---
+
+### 3. Add a code review *(Coming Soon / Maintenance)* 💬
 Adds code review comments to a specific pull request.
 
 ```bash
