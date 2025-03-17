@@ -28,19 +28,20 @@ def deepeval():
 
     while True:
         data = fetch_all_eval_data_for_deepeval()
-        
+
         if not data:
             typer.echo("No more unevaluated messages found. Exiting...")
             break
 
-        message_id, prompt_id, generated_output, model, prompt_text = data
-        prompt = get_prompt(prompt_id)
-        print(generated_output)
+        message_id, prompt_id, generated_output, model, commit_messages_and_diffs = data
+
         cleaned_output = clean_generated_output(generated_output)
-        print(cleaned_output)
+        prompt = get_prompt(prompt_id)
+
         evaluation_method, answer_relevancy, faithfulness_score, prompt_alignment = evaluate_deepeval(
-            prompt, cleaned_output, eval_model, model, prompt_text
+            prompt, cleaned_output, eval_model, model, commit_messages_and_diffs
         )
+
         insert_evaluation(message_id, evaluation_method, answer_relevancy, faithfulness_score, prompt_alignment, eval_model_name)
         typer.echo(f"Evaluated message {message_id} using {eval_model_name}")
 

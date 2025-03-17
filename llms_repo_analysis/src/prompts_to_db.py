@@ -60,15 +60,6 @@ def write_prompts_to_db():
     **Code Changes:**  
     {code_diffs}
 
-    ---
-
-    Now, generate the PR description in the following concise format:
-
-    - **chore:** Simplified logic for splitting operations.
-    - **chore:** Improved boolean evaluation for readability.
-    - **feat(config):** Enabled global issue collection.
-    - **fix:** Allowed config generator to accept multiple commands.
-    - **fix:** Removed empty PR fields from YAML output.
     """
 
     combined_prompt = """Generate a concise and structured Pull Request (PR) description based on the given commit messages and code changes. 

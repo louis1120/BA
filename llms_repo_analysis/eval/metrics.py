@@ -20,7 +20,8 @@ def evaluate_deepeval(input_text, actual_output, model, metric, context):
     )
     relevancy_test_case = LLMTestCase(
         input=input_text,
-        actual_output=actual_output
+        actual_output=actual_output,
+        retrieval_context=context
     )
 
     logging.debug("🔍 Measuring relevancy metric...")
@@ -42,9 +43,7 @@ def evaluate_deepeval(input_text, actual_output, model, metric, context):
     elif metric == "pull_request_code_review":
         prompt_instructions = [
             "Provide a structured code review following best practices.",
-            "Identify and explain potential issues, such as bad patterns, security risks, or performance bottlenecks.",
             "Use a constructive and professional tone.",
-            "Summarize the review using bullet points."
         ]
     else:
         prompt_instructions = ["Provide a structured and clear response."]
@@ -69,7 +68,6 @@ def evaluate_deepeval(input_text, actual_output, model, metric, context):
 
     # **Faithfulness Metric**
     logging.debug("📊 Initializing Faithfulness Metric...")
-    context = [context]
 
     faithfulness_metric = FaithfulnessMetric(
         threshold=0.7,
